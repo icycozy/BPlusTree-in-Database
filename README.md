@@ -689,11 +689,14 @@ cd build
 cmake -DCMAKE_BUILD_TYPE=Debug ..
 ```
 
+// cmake -DCMAKE_C_COMPILER=clang-14 -DCMAKE_CXX_COMPILER=clang++-14 -DCMAKE_BUILD_TYPE=Debug ..
+
 之后， 每次测试需要重新 `make`, 命令如下:
 
 ```shell
 cd build #进入 build 目录， 如果已经在 build 目录请忽略
 make b_plus_tree_insert_test b_plus_tree_delete_test b_plus_tree_contention_test b_plus_tree_concurrent_test -j$(nproc)
+// make b_plus_tree_insert_test -j$(nproc)
  #并行编译所有测试单元。 如果你暂时只想执行一部分测试程序， 请只 make 对应的 b_plus_tree_*_test。 
 ```
 

@@ -8,6 +8,11 @@ project(B_plus_tree
         LANGUAGES C CXX
 )
 
+if(POLICY CMP0109)
+  cmake_policy(SET CMP0109 OLD)
+endif()
+
+
 if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
         message(STATUS "Setting build type to `Debug` as none was specified.")
         set(CMAKE_BUILD_TYPE "Debug")
@@ -153,6 +158,21 @@ endfunction()
 set(CMAKE_MODULE_PATH "${BUSTUB_BUILD_SUPPORT_DIR}/cmake;${CMAKE_MODULE_PATH}")
 find_package(LibElf)
 find_package(LibDwarf)
+
+find_package(LibDwarf REQUIRED)
+
+# Check if dwarf_producer_init_c exists
+include(CheckFunctionExists)
+check_function_exists(dwarf_producer_init_c HAVE_DWARF_PRODUCER_INIT_C)
+
+if(HAVE_DWARF_PRODUCER_INIT_C)
+  add_definitions(-DHAVE_DWARF_PRODUCER_INIT_C)
+else()
+  message(WARNING "dwarf_producer_init_c not found, using dwarf_producer_init instead")
+endif()
+
+# Use the appropriate function in your code based on this check
+
 
 add_subdirectory(third_party)
 add_subdirectory(src)
